@@ -2,10 +2,10 @@ import os
 import hashlib
 
 
-def find_copied_files(path: str):
+def find_repetition(dir: str):
     SHAbuckets = {}
-    for file in os.listdir(path):
-        f = open(path + "/" + file, "rb")
+    for file in os.listdir(dir):
+        f = open(dir + "/" + file, "rb")
         sha = hashlib.sha256(f.read())
         sha = sha.hexdigest()
         f.close()
@@ -19,4 +19,4 @@ def find_copied_files(path: str):
     return file_replied
 
 
-print(find_copied_files('./copy'))
+print(find_repetition('./tests/copy'))
