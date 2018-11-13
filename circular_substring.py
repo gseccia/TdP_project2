@@ -48,4 +48,4 @@ def compute_kmp_fail(P):
     return fail
 
 
-print(circular_substring("commostring", "i"))
+print(circular_substring("ingco", "commostring"))
