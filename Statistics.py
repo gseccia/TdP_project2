@@ -1,4 +1,5 @@
 from TdP_collections.map.avl_tree import AVLTreeMap
+from operator import itemgetter
 
 
 class Statistics:
@@ -8,10 +9,6 @@ class Statistics:
         def __init__(self, o, v):
             self._occurrence = o
             self._total = v
-
-        def _increment(self, v):
-            self._occurrence += 1
-            self._total += v
 
         def get_occurrence(self):
             return self._occurrence
@@ -27,10 +24,10 @@ class Statistics:
 
     def add(self, k, v):
         self._tot_occurrences += 1
-        try:
+        if k in self._map:
             old = self._map[k]
-            self._map[k] = self._Stat(old.get_occurrence(), old.get_total())
-        except KeyError:
+            self._map[k] = self._Stat(old.get_occurrence()+1, old.get_total()+v)
+        else:
             self._map[k] = self._Stat(1, v)
 
     def occurrences(self):
@@ -39,8 +36,8 @@ class Statistics:
     def average(self):
         av = 0
         for stat in self._map:
-            av += self._map[stat].get_total() / self._tot_occurrences * self._map[stat].get_occurrence()
-        return av
+            av += self._map[stat].get_total() / self._map[stat].get_occurrence()
+        return av / len(self._map)
 
     def median(self):
         return self.percentile(50)
@@ -50,22 +47,34 @@ class Statistics:
         for elem in self._map:
             per += self._map[elem].get_occurrence() / self._tot_occurrences * 100
             if per >= j:
-                return self._map[elem].get_total() / self._map[elem].get_occurrence()
+                return elem
 
-    def most_frequent(self, j):
-        pass
+    def most_frequent(self, j=1):
+        bucket = list()
+        for key in self._map:
+            bucket.append([self._map[key].get_occurrence(), key])
+        bucket = sorted(bucket, reverse=True, key=itemgetter(0))
+        most = list()
+        for i in range(j):
+            most.append(bucket[i][1])
+        return most
 
 
 s = Statistics()
 print(s.occurrences())
-
-s.add(1,20)
+s.add(1, 30)
 print(s.occurrences())
-s.add(2,29)
+s.add(2, 20)
+print(s.occurrences())
+s.add(2, 20)
 print(s.occurrences())
 
-s.add(3,27)
-s.add(3,27)
-s.add(3,27)
+s.add(3, 20)
+s.add(3, 20)
+s.add(3, 20)
+print(s.occurrences())
 print(s.average())
 print(s.median())
+
+print("most frequent")
+print(s.most_frequent(2))
