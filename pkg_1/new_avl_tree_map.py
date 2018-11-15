@@ -17,8 +17,18 @@ class NewAVLTreeMap(TreeMap):
             self._balance_factor = bf
 
     # ------------------------- positional-based utility methods -------------------------
-    def _recompute_balance_factor(self):
-        pass
+    def _recompute_balance_factor(self, p):
+        if not self._isbalanced(p):
+            self._rebalance(p)
+            return
+        par = self.parent(p)
+        if par is not None:
+            if self.left(par) == p:
+                par._node._balance_factor += 1
+            elif self.right(par) == p:
+                par._node._balance_factor -= 1
+            if par._node._balance_factor != 0:
+                self._recompute_balance_factor(par)
 
     def _isbalanced(self, p):
         """ ok """
@@ -31,8 +41,8 @@ class NewAVLTreeMap(TreeMap):
         pass
 
     def _rebalance(self, p):
-        pass
-
+        if p._node.get_balance_factor < 0:
+            if p._node._r
 
     # ---------------------------- override balancing hooks ----------------------------
     def _rebalance_insert(self, p):
