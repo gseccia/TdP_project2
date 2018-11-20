@@ -17,6 +17,3 @@ def find_repetition(dir: str):
         if len(SHAbuckets[bucket]) > 1:
             file_replied.append(SHAbuckets[bucket])
     return file_replied
-
-
-print(find_repetition('./tests/copy'))
