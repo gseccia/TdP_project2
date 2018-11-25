@@ -1,0 +1,4 @@
+Questo è un file di prova per testare il modulo find_copy.py per
+trovare i file duplicati all'interno di una cartella.
+I file vengono considerati duplicati se hanno lo stesso contenuto.
+Questo file considera un test 3.
